@@ -50,6 +50,17 @@ forge-demo
 The optional package build uses setuptools. Running directly from the checkout
 requires no package downloads.
 
+## Interactive feature demo
+
+The [browser interface and server](demo/README.md) run the actual Python/SQLite
+engine. Try the dependent text workflow, inspect outputs and events, replay an
+idempotent submission, or observe a labeled transient failure recover through
+Forge's real retry mechanism. The demo adds four integration checks (32 tests
+total passed on Python 3.12) and was exercised in Chromium.
+
+Run instructions and bounded public-host configuration are in the demo guide.
+**Public hosting is pending; no live URL is claimed yet.**
+
 ## Architecture
 
 ```mermaid
@@ -74,7 +85,8 @@ flowchart LR
 | [api.py](forge/api.py) | Framework-neutral workflow/status/cancel/resume/registry and SSE handlers |
 
 The HTTP adapters accept an application's handler object; this repository does
-not start an HTTP server or import the private workspace gateway. The routing
+not start an HTTP server by default or import the private workspace gateway.
+The optional `demo/` wrapper provides a restricted standalone browser server. The routing
 engine handles metadata only. Cloud-provider executors and private provider
 configuration are not included.
 
