@@ -1,0 +1,129 @@
+{
+  "schema": "forge-source-extraction/1",
+  "source_revision": "b7dcefad3e8ea65e09da87235fda7f42027dd34b",
+  "source_owner": "xingzhao-ji",
+  "history_included": false,
+  "scope": "Allowlisted author-owned Forge source and synthetic tests. No private app data, credentials, media or Git history.",
+  "files": [
+    {
+      "path": "forge/models.py",
+      "source_path": "server/forge_models.py",
+      "source_blob": "21bba9aa6c38203796a1c9f5babefcb89ac6dab4",
+      "source_sha256": "ec584b8d2a384d815970c9ca2a168dea5b8f693cd6ec8672dcab9312c36d9c3f",
+      "changes": [
+        "Package-local import rename"
+      ]
+    },
+    {
+      "path": "forge/store.py",
+      "source_path": "server/forge_store.py",
+      "source_blob": "4bc6240387a84597824cfa8d146ecc0482997a2e",
+      "source_sha256": "3eed10d742212250241e1f0caeadb9a06bb2909de45b9b347eae84a6b6e65900",
+      "changes": [
+        "Package-local import rename"
+      ]
+    },
+    {
+      "path": "forge/registry.py",
+      "source_path": "server/forge_registry.py",
+      "source_blob": "72f0b4753f5a3b41ae9c73e6f1097daabb6111b3",
+      "source_sha256": "781d9b8a39db8c2ae223f171003a564b4fb96048469043db8b2d55dd3898fa2c",
+      "changes": [
+        "Package-local import rename"
+      ]
+    },
+    {
+      "path": "forge/routing.py",
+      "source_path": "server/forge_routing.py",
+      "source_blob": "4f7812f970c93fa9cff87865aad94b81801ae3df",
+      "source_sha256": "15a805dd31ee6d8da4dc178ec498cddccb056aff5fccfc7ced61823ba4754dd6",
+      "changes": [
+        "Package-local import rename"
+      ]
+    },
+    {
+      "path": "forge/scheduler.py",
+      "source_path": "server/forge_scheduler.py",
+      "source_blob": "2a9e032313d7b2b1457d757918b96c7c73918449",
+      "source_sha256": "2936b6fac82529cccd324c873dfaf672d6b7d57657bdeba64ecd99e428380310",
+      "changes": [
+        "Package-local import rename"
+      ]
+    },
+    {
+      "path": "forge/dispatcher.py",
+      "source_path": "server/forge_dispatcher.py",
+      "source_blob": "db575ba7efc859d3cad6a247dfd9f7b95b680527",
+      "source_sha256": "288b36f6b01c8e72e054ef0b50274ee7ec64b083580fd3002096e0f141c61f3a",
+      "changes": [
+        "Package-local import rename"
+      ]
+    },
+    {
+      "path": "forge/executors.py",
+      "source_path": "server/forge_executors.py",
+      "source_blob": "4611484c7af4dc21e6bdc2c051f0ceb22a52e3b8",
+      "source_sha256": "8f8ed4fa0c48e35d0db51e6d6874db6bf6913a56da793ea7746b31ed25264da7",
+      "changes": [
+        "Package-local import rename",
+        "Remove private app configuration import and media-directory defaults; require an explicit root"
+      ]
+    },
+    {
+      "path": "forge/runtime.py",
+      "source_path": "server/forge_runtime.py",
+      "source_blob": "84482212cdab8de8fc0c476e7467378ae2712e4c",
+      "source_sha256": "ddb7495272764da5c09646aea2c99fc789bd22afca1c73dd826044e3671d6409",
+      "changes": [
+        "Package-local import rename",
+        "Isolate database/templates/registry beneath explicit root; register local tasks only; add context-manager lifecycle"
+      ]
+    },
+    {
+      "path": "forge/api.py",
+      "source_path": "server/forge_api.py",
+      "source_blob": "e319f427d2ab0d8457ef2e74dd007ae665580420",
+      "source_sha256": "9ad4e5ee3a6d312ae6ec0fe86b90db8f0d4152a429325576ac703a766a1985a0",
+      "changes": [
+        "Package-local import rename"
+      ]
+    },
+    {
+      "path": "forge/local_tasks.py",
+      "source_path": "server/forge_tasks/notes_executor.py",
+      "source_blob": "ef070250e06214fda7f45d564c08dfeeeb96f680",
+      "source_sha256": "34fbac3e09df6fd703fb3c955db02f9d790e6f34a2fe3f2c5d8f27da5141d071",
+      "changes": [
+        "Retain ParseTextExtractExecutor verbatim; omit private note/PDF adapters; add deterministic TextStatsExecutor example"
+      ]
+    },
+    {
+      "path": "tests/test_forge_store.py",
+      "source_path": "tests/test_forge_store.py",
+      "source_blob": "ae550a19d3171d4c9c44328e2912f985c340922a",
+      "source_sha256": "26b245e571d6e2c1d9a727530a20b0f9bd9060c569c04b2bec141ba9201f4f0b",
+      "changes": [
+        "Package-local import rename"
+      ]
+    },
+    {
+      "path": "tests/test_forge_registry.py",
+      "source_path": "tests/test_forge_registry.py",
+      "source_blob": "d77af85fc4ad725d3212201316b51d9fc6173769",
+      "source_sha256": "f58cf0c3cd1e6fe6a10e209409e244ba5e58d16e4d2df7a33f3b62ef563e0694",
+      "changes": [
+        "Package-local import rename",
+        "Omit one test tied to the private app provider catalogue; no catalogue is distributed"
+      ]
+    },
+    {
+      "path": "tests/test_forge_routing.py",
+      "source_path": "tests/test_forge_routing.py",
+      "source_blob": "27394b46dbf9031aaf68363d9ccefcab67c18c28",
+      "source_sha256": "592ebd8c0bd8a795871a7a058cd51f291a97b07308901b295aa346058a39cd4b",
+      "changes": [
+        "Package-local import rename"
+      ]
+    }
+  ]
+}
