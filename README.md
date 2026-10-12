@@ -9,6 +9,17 @@ This is a standalone source extraction of Jared Ji's existing Forge project.
 The private application's files and history are excluded. The bundled tasks are
 deterministic local text operations; no API keys or external services are needed.
 
+## Recorded demo
+
+[Watch the 94.6-second runtime walkthrough](docs/demos/Forge-real-runtime-walkthrough.mp4)
+or browse the [screenshots and capture notes](docs/demos/README.md). The silent
+recording shows the real local pipeline, 28 passing tests and source code using
+synthetic data. Its terminal presentation was added for recording and is not a
+shipped Forge web interface. The [15-minute presentation runbook](docs/demos/Forge-15-minute-demo-runbook.txt)
+is a timed speaking plan, not a 15-minute video.
+
+[![Forge completing the local two-task pipeline](docs/demos/Forge-01-real-pipeline.png)](docs/demos/Forge-real-runtime-walkthrough.mp4)
+
 ## Quick start
 
 Use Python 3.10 or newer with SQLite support. Verification used Python 3.14.7.

@@ -1,0 +1,48 @@
+FORGE — 15-MINUTE ARCHITECTURE-LED DEMO
+Verified October 12, 2026 | public commit 2e357f6
+Source: https://github.com/xingzhao-ji/Forge
+
+DELIVERED FOOTAGE
+The accompanying MP4 is a short, genuine screen capture of the actual runtime, tests and source browsing on a cloud computer. It is silent proof footage, not a complete narrated 15-minute presentation. The native capture terminal is a presentation surface added for recording; it is not a shipped Forge frontend. All execution uses synthetic data and no provider credentials.
+
+0:00–2:00 — PROBLEM, STACK, ARCHITECTURE
+Problem: dependent local tasks need durable state, observable attempts and predictable recovery rather than an opaque chain of function calls.
+Stack: Python, SQLite, polling scheduler, four-worker thread pool, registered executor contracts and framework-neutral HTTP/SSE adapters.
+Trace the path: submission → DAG validation/idempotency → persisted workflow/tasks/dependencies → claim runnable tasks → dispatcher/executor → outputs/events/artifacts → next eligible task.
+Show README architecture, then runtime.py lines 21–36. Explain that this public extraction excludes private application routes and cloud-provider executors. It is a local single-process runtime.
+
+2:00–7:00 — GOLDEN PATH
+2:00 Run: python -m forge
+Explain the input sentence and parse.text.extract → text.stats dependency. These tasks execute locally; do not call them an LLM workflow.
+2:45 Point to actual workflow.submitted, task.started, task.succeeded and workflow.completed events. The output contains five words and 35 characters for the bundled sentence.
+3:30 Run: python -m forge --data-dir ./demo-state
+Inspect the retained synthetic SQLite state. Keep this separate from any real personal database.
+4:15 Run: python -m unittest discover -s tests -v
+4:30 Explain test_real_dag_api_sse_and_persistence: one workflow is submitted through an adapter, repeated idempotent submission reuses the workflow ID, SSE starts after Last-Event-ID, reopening preserves state.
+5:30 Explain transient failure recovery: the test executor fails once, succeeds on the second call, and persisted attempt count becomes two.
+6:15 Explain cancellation/resume and the four-worker bound tests. Distinguish assertions from an interactive production workload. Pause for one question.
+
+7:00–12:00 — CODE DEEP DIVE
+7:00 runtime.py lines 21–74: explicit data directory, component composition, executor registration and lifecycle. New runtime is required after stop.
+8:00 store.py validate_submission (line 532), create_workflow (692): validate DAG before persistence; reject unsupported task types and cycles; deduplicate by idempotency key. Show actual tests for cycle rejection and repeated submission.
+9:00 store.py claim_runnable_tasks (1341): transactionally claim only eligible work; check dependency success and concurrency limits; record attempt plan and lease.
+10:00 dispatcher.py _run_task (45): load persisted input, execute registered task, save result; classify transient/cancelled/permanent errors; apply bounded retries and backoff.
+11:00 scheduler.py _run_loop (49): recover expired leases, claim runnable tasks, dispatch, wait for the next poll. Discuss why polling is simple, and where it limits latency. Keep tests/test_runtime.py ready in a separate source tab.
+
+12:00–15:00 — TRADEOFFS, BUGS, RETROSPECTIVE
+12:00 SQLite plus a per-process thread pool makes this easy to reproduce, but it is not a distributed queue. Four workers is a per-process bound.
+12:40 Default polling is 0.5 seconds and leases are 30 seconds. The dispatcher does not renew leases for long jobs, so do not promise exactly-once external side effects or safe arbitrary long-running work.
+13:20 Cancellation does not forcibly interrupt running Python code; shutdown waits for workers. Custom executors need bounded execution.
+14:00 Before exposing adapters publicly, add authentication and request/resource limits. Provider routing fixtures are synthetic metadata, not provider benchmarks.
+14:30 Retrospective: explain what to improve next (lease renewal, idempotent side effects, resource limits and explicit observability) as proposed future work, not completed features.
+14:50 Close on verified evidence: all 28 tests passed on this cloud environment. Do not attribute the private note-index refresh result (7.634 ms → 0.647 ms, about 91.5%) to Forge runtime throughput.
+
+SOURCE TABS
+https://github.com/xingzhao-ji/Forge/blob/2e357f60b36d66abf2da3ffaf1313ba5d6788542/forge/runtime.py
+https://github.com/xingzhao-ji/Forge/blob/2e357f60b36d66abf2da3ffaf1313ba5d6788542/forge/store.py
+https://github.com/xingzhao-ji/Forge/blob/2e357f60b36d66abf2da3ffaf1313ba5d6788542/forge/dispatcher.py
+https://github.com/xingzhao-ji/Forge/blob/2e357f60b36d66abf2da3ffaf1313ba5d6788542/forge/scheduler.py
+https://github.com/xingzhao-ji/Forge/blob/2e357f60b36d66abf2da3ffaf1313ba5d6788542/tests/test_runtime.py
+
+RECORDING CHECKLIST
+Use a clean synthetic directory, keep repository and tests open, enlarge editor text, close unrelated tabs and notifications, and keep a backup recording. The short attached clip is a verified backup segment. It does not replace rehearsing the timed explanation above.
