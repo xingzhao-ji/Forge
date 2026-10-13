@@ -1,5 +1,7 @@
 # Forge
 
+[![Python CI](https://github.com/xingzhao-ji/Forge/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/xingzhao-ji/Forge/actions/workflows/ci.yml?query=branch%3Amain)
+
 A local workflow runtime built with Python and SQLite. Forge persists dependent
 task graphs, claims runnable work, executes it with four workers, and records
 attempts, artifacts and events. It supports idempotent submission, retries,
