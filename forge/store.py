@@ -1732,16 +1732,19 @@ class ForgeStore:
         fallback_used: bool = False,
         provider_job_id: str = "",
         cost_usd: float = 0.0,
+        expected_attempt_no: Optional[int] = None,
     ) -> None:
         now_iso = iso_utc()
         conn = self._connect()
         try:
             conn.execute("BEGIN IMMEDIATE")
             row = conn.execute(
-                "SELECT workflow_id, node_id FROM tasks WHERE task_id = ?",
+                "SELECT workflow_id, node_id, status, attempt_count FROM tasks WHERE task_id = ?",
                 (task_id_value,),
             ).fetchone()
-            if not row:
+            if not row or row["status"] != TASK_STATUS_RUNNING or (
+                expected_attempt_no is not None and row["attempt_count"] != expected_attempt_no
+            ):
                 conn.rollback()
                 return
             output_json = self._dumps(outputs or {})
@@ -1838,16 +1841,19 @@ class ForgeStore:
         fallback_used: bool = False,
         provider_job_id: str = "",
         cost_usd: float = 0.0,
+        expected_attempt_no: Optional[int] = None,
     ) -> None:
         now_iso = iso_utc()
         conn = self._connect()
         try:
             conn.execute("BEGIN IMMEDIATE")
             row = conn.execute(
-                "SELECT workflow_id, node_id, attempt_count FROM tasks WHERE task_id = ?",
+                "SELECT workflow_id, node_id, status, attempt_count FROM tasks WHERE task_id = ?",
                 (task_id_value,),
             ).fetchone()
-            if not row:
+            if not row or row["status"] != TASK_STATUS_RUNNING or (
+                expected_attempt_no is not None and row["attempt_count"] != expected_attempt_no
+            ):
                 conn.rollback()
                 return
             if not next_run_at:
@@ -1914,16 +1920,19 @@ class ForgeStore:
         fallback_used: bool = False,
         provider_job_id: str = "",
         cost_usd: float = 0.0,
+        expected_attempt_no: Optional[int] = None,
     ) -> None:
         now_iso = iso_utc()
         conn = self._connect()
         try:
             conn.execute("BEGIN IMMEDIATE")
             row = conn.execute(
-                "SELECT workflow_id, node_id FROM tasks WHERE task_id = ?",
+                "SELECT workflow_id, node_id, status, attempt_count FROM tasks WHERE task_id = ?",
                 (task_id_value,),
             ).fetchone()
-            if not row:
+            if not row or row["status"] != TASK_STATUS_RUNNING or (
+                expected_attempt_no is not None and row["attempt_count"] != expected_attempt_no
+            ):
                 conn.rollback()
                 return
             conn.execute(
@@ -1984,16 +1993,19 @@ class ForgeStore:
         fallback_used: bool = False,
         provider_job_id: str = "",
         cost_usd: float = 0.0,
+        expected_attempt_no: Optional[int] = None,
     ) -> None:
         now_iso = iso_utc()
         conn = self._connect()
         try:
             conn.execute("BEGIN IMMEDIATE")
             row = conn.execute(
-                "SELECT workflow_id, node_id FROM tasks WHERE task_id = ?",
+                "SELECT workflow_id, node_id, status, attempt_count FROM tasks WHERE task_id = ?",
                 (task_id_value,),
             ).fetchone()
-            if not row:
+            if not row or row["status"] != TASK_STATUS_RUNNING or (
+                expected_attempt_no is not None and row["attempt_count"] != expected_attempt_no
+            ):
                 conn.rollback()
                 return
             conn.execute(
