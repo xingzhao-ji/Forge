@@ -45,7 +45,7 @@ class ForgeDispatcher:
     def _run_task(self, claimed_task: Dict[str, Any]) -> None:
         task_id_value = claimed_task["task_id"]
         loaded = self.store.load_task_for_execution(task_id_value)
-        if not loaded:
+        if not loaded or loaded["status"] != "running" or loaded["attempt_count"] != claimed_task["attempt_count"]:
             return
 
         workflow_id_value = loaded["workflow_id"]
@@ -88,6 +88,7 @@ class ForgeDispatcher:
 
             self.store.complete_task(
                 task_id_value,
+                expected_attempt_no=claimed_task["attempt_count"],
                 outputs=result.outputs,
                 artifacts=result.artifacts,
                 logs=result.logs,
@@ -141,6 +142,7 @@ class ForgeDispatcher:
                 next_run = iso_utc(now_utc() + timedelta(seconds=wait))
                 self.store.retry_task(
                     task_id_value,
+                    expected_attempt_no=claimed_task["attempt_count"],
                     error=error_payload,
                     next_run_at=next_run,
                     logs=[error_payload["message"]],
@@ -152,6 +154,7 @@ class ForgeDispatcher:
             elif kind == "cancelled":
                 self.store.cancel_task(
                     task_id_value,
+                    expected_attempt_no=claimed_task["attempt_count"],
                     reason=error_payload["message"],
                     provider_used=provider,
                     model_used=planned_model,
@@ -167,6 +170,7 @@ class ForgeDispatcher:
                     )
                 self.store.fail_task(
                     task_id_value,
+                    expected_attempt_no=claimed_task["attempt_count"],
                     error=error_payload,
                     logs=[error_payload["message"]],
                     provider_used=provider,
